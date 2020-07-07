@@ -43,11 +43,6 @@ library(gghighlight)
 library(icon) 
 ```
 
-<br>
-
-***
-
-This is my first Tidy Tuesday contribution and will be playing around a little bit with the the Coffee rating data `r icon::fontawesome("coffee", style = "solid")`.
 
 <style>
 div.red { background-color:#FFE8E8; border-radius: 5px; padding: 30px; } 
@@ -71,6 +66,8 @@ div.red p { font-family: Verdana, Geneva, sans-serif; }
 <br>
 
 
+
+This is my first Tidy Tuesday contribution and will be playing around a little bit with the the Coffee rating data `r icon::fontawesome("coffee", style = "solid")`.
 
 # Getting Tidy Tuesday data
 
@@ -202,9 +199,6 @@ ggstatsplot::ggbetweenstats(
 </div>
 
 
-***
-
-# References
 
 ***
 <br><br>
@@ -231,7 +225,9 @@ s.setAttribute('data-timestamp', +new Date());
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
 
+***
 
+# References
 
 
 

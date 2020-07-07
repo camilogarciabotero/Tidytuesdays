@@ -13,7 +13,7 @@ page](https://camilogarciabotero.github.io)
 <p align="center">
 
 <a href="https://camilogarciabotero.github.io">
-<img src="img/profile.jpg"> {border-radius: 50%} </a>
+<img src="img/profile.jpg"> img {border-radius: 50%} </a>
 
 </p>
 

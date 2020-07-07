@@ -16,13 +16,15 @@ output:
    toc: TRUE
    number_sections: FALSE
    code_folding: "show"
-#bibliography: bibliography.bib
+bibliography: bibliography.bib
 link-citations: yes
 ---
 
 ```{r options, include=FALSE}
 knitr::opts_chunk$set(cache=TRUE,  comment= " ")# , engine.opts = list(zsh="-i")) #, engine.opts = list(zsh="source ~/.zprofile"))#, engine.path = list()) #str(knitr::opts_chunk$get())
+#write_bib(c('tidyverse', "tidylog", "patchwork", "tidytuesdayR", "hrbrthemes", "rmarkdown", "bookdown", "epuRate", "knitr", "citr", "ggsci", "gghighlight", "icon"))
 ```
+
 
 
 ```{r libraries, include=FALSE, warning=FALSE, message=FALSE}
@@ -46,6 +48,28 @@ library(icon)
 ***
 
 This is my first Tidy Tuesday contribution and will be playing around a little bit with the the Coffee rating data `r icon::fontawesome("coffee", style = "solid")`.
+
+<style>
+div.red { background-color:#FFE8E8; border-radius: 5px; padding: 30px; } 
+div.red p { font-family: Verdana, Geneva, sans-serif; }
+</style>
+<div class = "red">
+<p style="text-align:right">`r icon::fontawesome("r-project")`</p>
+**Libraries**
+  
+  `tidyverse`: data transformations and beautiful plots [@tidyverse2019].<br>
+  `hrbrthemes`: this contains the ipsum theme, a very simple and elegant theme [@R-hrbrthemes].<br>
+  `rmarkdown`: all the structure of the report relies on this library [@R-rmarkdown].<br>
+  `bookdown`: allows the bibliography on the YAML header of this Rmarkdown doc [@bookdown2016; @R-bookdown].<br>
+  `epuRate`: the elegant theme of the report [@R-epuRate].<br>
+  `knitr`: all parts integration to render the output reporducible report [@knitr2014; @knitr2015; @R-knitr].<br>
+  `citr`: addin for easyly find citations in the .bib file and insert in the correct format [@R-citr].<br>
+  `ggsci`: a set of scientific palettes library and more... [@R-ggsci].<br>
+  `icon` inserting many different icons in markdown [@R-icon].
+  
+</div>
+<br>
+
 
 
 # Getting Tidy Tuesday data
@@ -172,11 +196,15 @@ ggstatsplot::ggbetweenstats(
 <div> 
   <p align="center">
     <a href="https://www.paypal.me/camilogarciabotero">
-      <img src="../img/coffe-3.png" />
+      <img src="img/coffe-3.png" />
     </a>
   </p>			  
 </div>
 
+
+***
+
+# References
 
 ***
 <br><br>

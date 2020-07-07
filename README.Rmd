@@ -3,12 +3,11 @@ title: "README"
 output: github_document
 ---
 
-This repositorie contains my attempts to visualize and understand datasets released on the [TidyTuesday](https://github.com/rfordatascience/tidytuesday) project. It is noteworthy that this repo will contain the `.Rmd` and `.html` versions that will be hosted on my [web page](https://camilogarciabotero.github.io)
-
+This repositorie contains my attempts to visualize and understand datasets released on the [TidyTuesday](https://github.com/rfordatascience/tidytuesday) project. It is noteworthy that this repo will contain the `.Rmd` and `.html` versions that will be hosted on my web page:
 
 
 <style>
-img.rounded { border-radius: 50% } 
+img.rounded { border-radius: 50%; } 
 </style>
 <div> 
   <p align="center">

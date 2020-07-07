@@ -9,7 +9,7 @@ This repositorie contains my attempts to visualize and understand datasets relea
 <div> 
   <p align="center">
     <a href="https://camilogarciabotero.github.io">
-      <img src="img/profile.jpg" class="rounded-circle">
+      <img src="img/profile.jpg"> {border-radius: 50%}
     </a>
   </p>			  
 </div>
@@ -20,7 +20,7 @@ This repositorie contains my attempts to visualize and understand datasets relea
 <div> 
   <p align="center">
     <a href="https://www.paypal.me/camilogarciabotero">
-      <img src="img/coffe-3.png" />
+      <img src="img/coffe-3.png">
     </a>
   </p>			  
 </div>

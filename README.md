@@ -13,7 +13,7 @@ page](https://camilogarciabotero.github.io)
 <p align="center">
 
 <a href="https://camilogarciabotero.github.io">
-<img src="img/profile.jpg" class= "rounded-circle"> </a>
+<img src="img/profile.jpg"> {border-radius: 50%} </a>
 
 </p>
 
@@ -26,7 +26,7 @@ page](https://camilogarciabotero.github.io)
 <p align="center">
 
 <a href="https://www.paypal.me/camilogarciabotero">
-<img src="img/coffe-3.png" /> </a>
+<img src="img/coffe-3.png"> </a>
 
 </p>
 

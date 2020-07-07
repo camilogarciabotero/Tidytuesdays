@@ -1,6 +1,6 @@
 ---
 title: "Coffee ratings"
-subtitle: "Tidy tuesday week-28"
+subtitle: "TidyTuesday week 28"
 author: "[Camilo Garcia](https://github.com/camilogarciabotero)"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 mail: "cgarci39@eafit.edu.co"
@@ -78,26 +78,22 @@ I decided then to compare coffee ratings across countries and the associated den
 # Getting Tidy Tuesday data
 
 ```{r, include=FALSE}
-
-
-data <-  tidytuesdayR::tt_load(2020, week = 28)
-coffee <- data$coffee_ratings
-head(coffee)
+#data <-  tidytuesdayR::tt_load(2020, week = 28)
+#coffee <- data$coffee_ratings
+#head(coffee)
 ```
 
 
-```{r, message=FALSE, warning=FALSE,  }
-
+```{r data-import, message=FALSE, warning=FALSE}
 coffee <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-07-07/coffee_ratings.csv')
 head(coffee)
-
 ```
 
 # Coffee ratings distribution
 
-```{r country-comparison, fig.align= "center", fig.height= 15, fig.width=13, dpi = 100, warning=FALSE, message=FALSE, fig.cap= "Fig 1. Comparison of the different coffee ratings for the different cups across countries and its associate distribution coffee cups"}
+```{r country-comparison, fig.align= "center", fig.height= 15, fig.width=13, dpi = 100, warning=FALSE, message=FALSE, fig.cap= "Fig 1. Comparison of the different coffee ratings for the different cups across countries and its associate distribution coffee cups."}
 
-p1 <- coffee %>% 
+coffee %>% 
   drop_na(any_of("country_of_origin")) %>%
   filter(aroma != 0  & !country_of_origin %in% c("Zambia", "Rwanda", "Papua New Guinea", "Japan", "Mauritius", "Cote d?Ivoire")) %>%
   ggplot(aes(x = total_cup_points, y = country_of_origin, fill = stat(x))) +
@@ -112,9 +108,8 @@ p1 <- coffee %>%
     axis.title.x = element_text(size = 16),
     axis.title.y = element_text(size = 16),
     axis.text.y = element_text(size = 18),
+    plot.caption = element_text(size = 16)
   )
-
-p1
 
 ```
 

@@ -22,16 +22,13 @@ link-citations: yes
 
 ```{r options, include=FALSE}
 knitr::opts_chunk$set(cache=TRUE,  comment= " ")# , engine.opts = list(zsh="-i")) #, engine.opts = list(zsh="source ~/.zprofile"))#, engine.path = list()) #str(knitr::opts_chunk$get())
-#write_bib(c('tidyverse', "tidylog", "patchwork", "tidytuesdayR", "hrbrthemes", "rmarkdown", "bookdown", "epuRate", "knitr", "citr", "ggsci", "gghighlight", "icon", "ggridges"))
-
+#write_bib(c('tidyverse', "tidylog", "patchwork", "tidytuesdayR", "hrbrthemes", "rmarkdown", "bookdown", "epuRate", "knitr", "citr", "ggsci", "gghighlight", "icon", "ggridges", "ggrepel"))
 ```
 
 
 
 ```{r libraries, include=FALSE, warning=FALSE, message=FALSE}
 library(tidyverse) 
-library(tidylog)
-library(patchwork)
 library(tidytuesdayR)
 library(hrbrthemes)
 library(rmarkdown)
@@ -39,10 +36,9 @@ library(bookdown)
 library(epuRate)
 library(knitr)
 library(citr)
-library(ggsci) 
-library(gghighlight)
 library(icon) 
 library(ggridges)
+library(ggrepel)
 ```
 
 
@@ -62,7 +58,8 @@ div.red p { font-family: Verdana, Geneva, sans-serif; }
   `knitr`: all parts integration to render the output reporducible report [@knitr2014; @knitr2015; @R-knitr].<br>
   `citr`: addin for easyly find citations in the .bib file and insert in the correct format [@R-citr].<br>
   `icon` inserting many different icons in markdown [@R-icon].<br>
-  `ggridges` plotting the density in single rows like ridges and moreover [@R-ggridges].
+  `ggridges` plotting the density in single rows like ridges and moreover [@R-ggridges].<br>
+  `ggrepel` avoid labels overlapping [@R-ggrepel].
   
 </div>
 <br>
@@ -91,24 +88,34 @@ head(coffee)
 
 # Coffee ratings distribution
 
-```{r country-comparison, fig.align= "center", fig.height= 15, fig.width=13, dpi = 100, warning=FALSE, message=FALSE, fig.cap= "Fig 1. Comparison of the different coffee ratings for the different cups across countries and its associate distribution coffee cups."}
+```{r country-comparison, fig.align= "center", fig.height= 15, fig.width=15, dpi = 100, warning=FALSE, message=FALSE, fig.cap= "Fig 1. Comparison of the different coffee ratings for the different cups across countries and its associate distribution coffee cups."}
 
-coffee %>% 
+coffee %>%
   drop_na(any_of("country_of_origin")) %>%
-  filter(aroma != 0  & !country_of_origin %in% c("Zambia", "Rwanda", "Papua New Guinea", "Japan", "Mauritius", "Cote d?Ivoire")) %>%
-  ggplot(aes(x = total_cup_points, y = country_of_origin, fill = stat(x))) +
+  filter(aroma != 0 & !country_of_origin %in% c("Zambia", "Rwanda", "Papua New Guinea", "Japan", "Mauritius", "Cote d?Ivoire")) %>%
+  ggplot(aes(x = total_cup_points, y = country_of_origin, fill = stat(x), label = owner)) +
   geom_density_ridges_gradient(show.legend = T, alpha = .5, point_alpha = 0.5, jittered_points = TRUE) +
   theme_ipsum() +
   scale_fill_viridis_c(alpha = 0.7) +
   ylab("") +
   xlab("Total cup points") +
-  labs(caption = "Data from TidyTuesday week 28", fill = "Total cup points") +
+  labs(title = "Comparison of coffee's ratings across countries and its distribution",
+       subtitle = "Ethiopian coffees seem to be the best. Latinoamerican countries were more abundant in the competition",
+       caption = "Data: TidyTuesday week 28. Visualization: @Gaspardelanoche", 
+       fill = "Total cup points"
+       ) +
   theme(
-    plot.title = element_text(size = 18, face = "bold"),
-    axis.title.x = element_text(size = 16),
-    axis.title.y = element_text(size = 16),
+    plot.title = element_text(size = 20, face = "bold"),
+    plot.subtitle = element_text(size = 18),
+    axis.title.x = element_text(size = 18),
+    axis.title.y = element_text(size = 18),
     axis.text.y = element_text(size = 18),
     plot.caption = element_text(size = 16)
+  ) +
+  geom_label_repel(
+    data = subset(coffee,total_cup_points > 88),
+    force = 10,
+    xlim  = c(88,NA)
   )
 
 ```

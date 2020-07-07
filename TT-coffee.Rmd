@@ -1,0 +1,187 @@
+---
+title: "Coffee ratings"
+subtitle: "Tidy tuesday week-28"
+author: "[Camilo Garcia](https://github.com/camilogarciabotero)"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+mail: "cgarci39@eafit.edu.co"
+twitter: "gaspardelanoche"
+#orcid: "0000-0002-0426-7007"
+github: "camilogarciabotero"
+#home: "camilogarciabotero.github.io"
+#scholar: "OJ6452UAAAAJ&hl"
+#researchgate: "Camilo_Garcia-Botero"
+#logo: "../img/coffee-4.png"
+output:
+  epuRate::epurate:
+   toc: TRUE
+   number_sections: FALSE
+   code_folding: "show"
+#bibliography: bibliography.bib
+link-citations: yes
+---
+
+```{r options, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE,  comment= " ")# , engine.opts = list(zsh="-i")) #, engine.opts = list(zsh="source ~/.zprofile"))#, engine.path = list()) #str(knitr::opts_chunk$get())
+```
+
+
+```{r libraries, include=FALSE, warning=FALSE, message=FALSE}
+library(tidyverse) 
+library(tidylog)
+library(patchwork)
+library(tidytuesdayR)
+library(hrbrthemes)
+library(rmarkdown)
+library(bookdown)
+library(epuRate)
+library(knitr)
+library(citr)
+library(ggsci) 
+library(gghighlight)
+library(icon) 
+```
+
+<br>
+
+***
+
+This is my first Tidy Tuesday contribution and will be playing around a little bit with the the Coffee rating data `r icon::fontawesome("coffee", style = "solid")`.
+
+
+# Getting Tidy Tuesday data
+
+```{r, include=FALSE}
+#coffee <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-07-07/coffee_ratings.csv')
+#head(coffee)
+```
+
+
+```{r, message=FALSE, warning=FALSE}
+
+data <-  tidytuesdayR::tt_load(2020, week = 28)
+coffee <- data$coffee_ratings
+head(coffee)
+
+```
+
+# Coffee ratings distribution
+
+```{r country-comparison, fig.align= "center", fig.height= 20, fig.width=15, dpi = 100, warning=FALSE, message=FALSE}
+p1 <- coffee %>% 
+  drop_na(any_of("country_of_origin")) %>%
+  filter(aroma != 0) %>% 
+  ggplot() +
+  aes(x = total_cup_points, fill = country_of_origin) +
+  geom_density() +
+  theme_minimal() +
+  scale_fill_viridis_d(alpha = 0.7) +
+  ylab("Proportion of coffes per country") +
+  xlab("Total cup points") +
+  theme(
+    plot.title = element_text(size = 18, face = "bold"),
+    axis.title.x = element_text(size = 16),
+    axis.title.y = element_text(size = 16),
+    axis.text.y = element_text(size = 16),
+    legend.text = element_text(size = 14),
+    legend.title = element_blank(),
+    legend.position = "bottom"
+  ) 
+  
+p2 <- coffee %>% 
+  drop_na(any_of("country_of_origin")) %>%
+  filter(aroma != 0) %>% 
+  ggplot() +
+  aes(x = total_cup_points, y = country_of_origin, fill = country_of_origin) +
+  geom_boxplot(show.legend = FALSE) +
+  theme_minimal() +
+  scale_fill_viridis_d(alpha = 0.7) +
+  ylab("Countries") +
+  xlab("Total cup points") +
+  labs(fill = "Country") +
+  theme(
+    plot.title = element_text(size = 18, face = "bold"),
+    axis.title.x = element_text(size = 16),
+    axis.title.y = element_text(size = 16),
+    axis.text.y = element_text(size = 18)
+  ) +
+  gghighlight(country_of_origin == "Colombia")
+
+
+p2 / p1 + plot_annotation(tag_levels = 'A')
+
+```
+
+
+```{r, fig.align= "center", fig.height= 10, fig.width=13, dpi = 100, warning=FALSE, message=FALSE, include=FALSE}
+
+coffee %>% 
+  drop_na(any_of("country_of_origin")) %>%
+  filter(aroma != 0) %>% 
+  #filter(country_of_origin %in% c("Zambia", "Papua New Guinea", "Mauritius", "Rwanda", "Cote d?Ivore", "Japan")) %>% 
+  ggplot() +
+  aes(x = total_cup_points, y = country_of_origin, fill = country_of_origin) +
+  geom_boxplot() +
+  theme_ipsum() +
+  scale_fill_viridis_d() +
+  ylab("Proportion of countries") +
+  xlab("Total cup points") +
+  labs(fill = "Country") +
+  theme(
+    plot.title = element_text(size = 18, face = "bold"),
+    axis.title.x = element_text(size = 16),
+    axis.title.y = element_text(size = 16),
+    axis.text.y = element_text(size = 16),
+    legend.text = element_text(size = 12),
+    legend.title = element_blank(),
+    legend.position = "bottom"
+  )
+
+```
+
+
+
+```{r, eval=FALSE, include=FALSE}
+
+clean_coffee <- coffee %>% 
+  drop_na(any_of("country_of_origin")) %>%
+  group_by(country_of_origin,total_cup_points) %>% 
+  summarize(count = n())
+  
+  #filter(!country_of_origin == n(country_of_origin) > 1 )
+  #filter(!country_of_origin %in% c("Zambia", "Papua New Guinea", "Mauritius", "Rwanda", "Cote d?Ivore", "Japan"))
+
+ggstatsplot::ggbetweenstats(
+  data = clean_coffee,
+  x = country_of_origin,
+  y = total_cup_points,
+  plot.type = "box",
+  type = "np",
+  xlab("Country of origin"),
+  ylab("Total cup points")
+  #package = "ggsci",
+  #palette = "default_jco",
+)
+
+
+[![Buy me a coffee](../img/coffe-3.png)](https://www.paypal.me/camilogarciabotero)
+```
+
+
+***
+
+<div> 
+  <p align="center">
+    <a href="https://www.paypal.me/camilogarciabotero">
+      <img src="../img/coffe-3.png" />
+    </a>
+  </p>			  
+</div>
+
+
+
+
+
+
+
+
+

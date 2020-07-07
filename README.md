@@ -8,6 +8,17 @@ It is noteworthy that this repo will contain the `.Rmd` and `.html`
 versions that will be hosted on my [web
 page](https://camilogarciabotero.github.io)
 
+<div>
+
+<p align="center">
+
+<a href="https://camilogarciabotero.github.io">
+<img src="img/profile.jpg" class= "rounded-circle"> </a>
+
+</p>
+
+</div>
+
 -----
 
 <div>

@@ -61,7 +61,6 @@ div.red p { font-family: Verdana, Geneva, sans-serif; }
   `epuRate`: the elegant theme of the report [@R-epuRate].<br>
   `knitr`: all parts integration to render the output reporducible report [@knitr2014; @knitr2015; @R-knitr].<br>
   `citr`: addin for easyly find citations in the .bib file and insert in the correct format [@R-citr].<br>
-  `ggsci`: a set of scientific palettes library and more... [@R-ggsci].<br>
   `icon` inserting many different icons in markdown [@R-icon].<br>
   `ggridges` plotting the density in single rows like ridges and moreover [@R-ggridges].
   
@@ -79,22 +78,24 @@ I decided then to compare coffee ratings across countries and the associated den
 # Getting Tidy Tuesday data
 
 ```{r, include=FALSE}
-#coffee <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-07-07/coffee_ratings.csv')
-#head(coffee)
-```
 
-
-```{r, message=FALSE, warning=FALSE}
 
 data <-  tidytuesdayR::tt_load(2020, week = 28)
 coffee <- data$coffee_ratings
+head(coffee)
+```
+
+
+```{r, message=FALSE, warning=FALSE,  }
+
+coffee <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-07-07/coffee_ratings.csv')
 head(coffee)
 
 ```
 
 # Coffee ratings distribution
 
-```{r country-comparison, fig.align= "center", fig.height= 20, fig.width=13, dpi = 100, warning=FALSE, message=FALSE, fig.cap= "Fig 1. Comparison of the different coffee ratings for the different cups across countries and its associate distribution coffee cups showing whcich countries have the best set of coffes accorting to total rating"}
+```{r country-comparison, fig.align= "center", fig.height= 15, fig.width=13, dpi = 100, warning=FALSE, message=FALSE, fig.cap= "Fig 1. Comparison of the different coffee ratings for the different cups across countries and its associate distribution coffee cups"}
 
 p1 <- coffee %>% 
   drop_na(any_of("country_of_origin")) %>%
@@ -103,7 +104,7 @@ p1 <- coffee %>%
   geom_density_ridges_gradient(show.legend = T, alpha = .5, point_alpha = 0.5, jittered_points = TRUE) +
   theme_ipsum() +
   scale_fill_viridis_c(alpha = 0.7) +
-  ylab("Countries") +
+  ylab("") +
   xlab("Total cup points") +
   labs(caption = "Data from TidyTuesday week 28", fill = "Total cup points") +
   theme(

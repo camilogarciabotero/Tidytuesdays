@@ -22,7 +22,8 @@ link-citations: yes
 
 ```{r options, include=FALSE}
 knitr::opts_chunk$set(cache=TRUE,  comment= " ")# , engine.opts = list(zsh="-i")) #, engine.opts = list(zsh="source ~/.zprofile"))#, engine.path = list()) #str(knitr::opts_chunk$get())
-#write_bib(c('tidyverse', "tidylog", "patchwork", "tidytuesdayR", "hrbrthemes", "rmarkdown", "bookdown", "epuRate", "knitr", "citr", "ggsci", "gghighlight", "icon"))
+#write_bib(c('tidyverse', "tidylog", "patchwork", "tidytuesdayR", "hrbrthemes", "rmarkdown", "bookdown", "epuRate", "knitr", "citr", "ggsci", "gghighlight", "icon", "ggridges"))
+
 ```
 
 
@@ -41,6 +42,7 @@ library(citr)
 library(ggsci) 
 library(gghighlight)
 library(icon) 
+library(ggridges)
 ```
 
 
@@ -60,14 +62,19 @@ div.red p { font-family: Verdana, Geneva, sans-serif; }
   `knitr`: all parts integration to render the output reporducible report [@knitr2014; @knitr2015; @R-knitr].<br>
   `citr`: addin for easyly find citations in the .bib file and insert in the correct format [@R-citr].<br>
   `ggsci`: a set of scientific palettes library and more... [@R-ggsci].<br>
-  `icon` inserting many different icons in markdown [@R-icon].
+  `icon` inserting many different icons in markdown [@R-icon].<br>
+  `ggridges` plotting the density in single rows like ridges and moreover [@R-ggridges].
   
 </div>
 <br>
 
 
 
-This is my first Tidy Tuesday contribution and will be playing around a little bit with the the Coffee rating data `r icon::fontawesome("coffee", style = "solid")`.
+This is my first Tidy Tuesday contribution and will be playing around a little bit with  the coffee rating data `r icon::fontawesome("coffee", style = "solid")`.
+
+As a coffee lover I felt that exploring a dataset about coffee was mandatory. The first question that came to me mind was: what is the best coffee and eventually, as looking a little bit deeper into dataset, which country has the best coffees.
+
+I decided then to compare coffee ratings across countries and the associated density of cups rated. Among the main findings it shows that one Ethiopian coffee came to be the best ranked and also that this country's coffees are the best ranked while Haitian coffees show one of the widest range of ratings. Colombian coffee display a moderately good ratings and a very narrow range. 
 
 # Getting Tidy Tuesday data
 
@@ -87,104 +94,27 @@ head(coffee)
 
 # Coffee ratings distribution
 
-```{r country-comparison, fig.align= "center", fig.height= 20, fig.width=15, dpi = 100, warning=FALSE, message=FALSE}
+```{r country-comparison, fig.align= "center", fig.height= 20, fig.width=13, dpi = 100, warning=FALSE, message=FALSE, fig.cap= "Fig 1. Comparison of the different coffee ratings for the different cups across countries and its associate distribution coffee cups showing whcich countries have the best set of coffes accorting to total rating"}
+
 p1 <- coffee %>% 
   drop_na(any_of("country_of_origin")) %>%
-  filter(aroma != 0) %>% 
-  ggplot() +
-  aes(x = total_cup_points, fill = country_of_origin) +
-  geom_density() +
-  theme_minimal() +
-  scale_fill_viridis_d(alpha = 0.7) +
-  ylab("Proportion of coffes per country") +
-  xlab("Total cup points") +
-  theme(
-    plot.title = element_text(size = 18, face = "bold"),
-    axis.title.x = element_text(size = 16),
-    axis.title.y = element_text(size = 16),
-    axis.text.y = element_text(size = 16),
-    legend.text = element_text(size = 14),
-    legend.title = element_blank(),
-    legend.position = "bottom"
-  ) 
-  
-p2 <- coffee %>% 
-  drop_na(any_of("country_of_origin")) %>%
-  filter(aroma != 0) %>% 
-  ggplot() +
-  aes(x = total_cup_points, y = country_of_origin, fill = country_of_origin) +
-  geom_boxplot(show.legend = FALSE) +
-  theme_minimal() +
-  scale_fill_viridis_d(alpha = 0.7) +
+  filter(aroma != 0  & !country_of_origin %in% c("Zambia", "Rwanda", "Papua New Guinea", "Japan", "Mauritius", "Cote d?Ivoire")) %>%
+  ggplot(aes(x = total_cup_points, y = country_of_origin, fill = stat(x))) +
+  geom_density_ridges_gradient(show.legend = T, alpha = .5, point_alpha = 0.5, jittered_points = TRUE) +
+  theme_ipsum() +
+  scale_fill_viridis_c(alpha = 0.7) +
   ylab("Countries") +
   xlab("Total cup points") +
-  labs(fill = "Country") +
+  labs(caption = "Data from TidyTuesday week 28", fill = "Total cup points") +
   theme(
     plot.title = element_text(size = 18, face = "bold"),
     axis.title.x = element_text(size = 16),
     axis.title.y = element_text(size = 16),
-    axis.text.y = element_text(size = 18)
-  ) +
-  gghighlight(country_of_origin == "Colombia")
-
-
-p2 / p1 + plot_annotation(tag_levels = 'A')
-
-```
-
-
-```{r, fig.align= "center", fig.height= 10, fig.width=13, dpi = 100, warning=FALSE, message=FALSE, include=FALSE}
-
-coffee %>% 
-  drop_na(any_of("country_of_origin")) %>%
-  filter(aroma != 0) %>% 
-  #filter(country_of_origin %in% c("Zambia", "Papua New Guinea", "Mauritius", "Rwanda", "Cote d?Ivore", "Japan")) %>% 
-  ggplot() +
-  aes(x = total_cup_points, y = country_of_origin, fill = country_of_origin) +
-  geom_boxplot() +
-  theme_ipsum() +
-  scale_fill_viridis_d() +
-  ylab("Proportion of countries") +
-  xlab("Total cup points") +
-  labs(fill = "Country") +
-  theme(
-    plot.title = element_text(size = 18, face = "bold"),
-    axis.title.x = element_text(size = 16),
-    axis.title.y = element_text(size = 16),
-    axis.text.y = element_text(size = 16),
-    legend.text = element_text(size = 12),
-    legend.title = element_blank(),
-    legend.position = "bottom"
+    axis.text.y = element_text(size = 18),
   )
 
-```
+p1
 
-
-
-```{r, eval=FALSE, include=FALSE}
-
-clean_coffee <- coffee %>% 
-  drop_na(any_of("country_of_origin")) %>%
-  group_by(country_of_origin,total_cup_points) %>% 
-  summarize(count = n())
-  
-  #filter(!country_of_origin == n(country_of_origin) > 1 )
-  #filter(!country_of_origin %in% c("Zambia", "Papua New Guinea", "Mauritius", "Rwanda", "Cote d?Ivore", "Japan"))
-
-ggstatsplot::ggbetweenstats(
-  data = clean_coffee,
-  x = country_of_origin,
-  y = total_cup_points,
-  plot.type = "box",
-  type = "np",
-  xlab("Country of origin"),
-  ylab("Total cup points")
-  #package = "ggsci",
-  #palette = "default_jco",
-)
-
-
-[![Buy me a coffee](../img/coffe-3.png)](https://www.paypal.me/camilogarciabotero)
 ```
 
 
@@ -197,7 +127,6 @@ ggstatsplot::ggbetweenstats(
     </a>
   </p>			  
 </div>
-
 
 
 ***
@@ -228,6 +157,7 @@ s.setAttribute('data-timestamp', +new Date());
 ***
 
 # References
+
 
 
 

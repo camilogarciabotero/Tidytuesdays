@@ -7,7 +7,7 @@ mail: "cgarci39@eafit.edu.co"
 twitter: "gaspardelanoche"
 #orcid: "0000-0002-0426-7007"
 github: "camilogarciabotero"
-#home: "camilogarciabotero.github.io"
+home: "camilogarciabotero.github.io"
 #scholar: "OJ6452UAAAAJ&hl"
 #researchgate: "Camilo_Garcia-Botero"
 #logo: "../img/coffee-4.png"
@@ -99,11 +99,12 @@ coffee %>%
   scale_fill_viridis_c(alpha = 0.7) +
   ylab("") +
   xlab("Total cup points") +
-  labs(title = "Comparison of coffee's ratings across countries and its distribution",
-       subtitle = "Ethiopian coffees seem to be the best. Latinoamerican countries were more abundant in the competition",
-       caption = "Data: TidyTuesday week 28. Visualization: @Gaspardelanoche", 
-       fill = "Total cup points"
-       ) +
+  labs(
+    title = "Comparison of coffee's ratings across countries and its distribution",
+    subtitle = "Ethiopian coffees seem to be the best. Latinoamerican countries were more abundant in the competition",
+    caption = "Data: TidyTuesday week 28. Visualization: @Gaspardelanoche",
+    fill = "Total cup points"
+  ) +
   theme(
     plot.title = element_text(size = 20, face = "bold"),
     plot.subtitle = element_text(size = 18),
@@ -113,9 +114,9 @@ coffee %>%
     plot.caption = element_text(size = 16)
   ) +
   geom_label_repel(
-    data = subset(coffee,total_cup_points > 88),
+    data = subset(coffee, total_cup_points > 88),
     force = 10,
-    xlim  = c(88,NA)
+    xlim = c(88, NA)
   )
 
 ```

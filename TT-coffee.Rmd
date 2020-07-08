@@ -1,7 +1,7 @@
 ---
 title: "Coffee ratings"
 subtitle: "TidyTuesday week 28"
-author: "[Camilo Garcia](https://github.com/camilogarciabotero)"
+author: "[Camilo Garcia](https://camilogarciabotero.github.io)"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 mail: "cgarci39@eafit.edu.co"
 twitter: "gaspardelanoche"
@@ -58,8 +58,8 @@ div.red p { font-family: Verdana, Geneva, sans-serif; }
   `knitr`: all parts integration to render the output reporducible report [@knitr2014; @knitr2015; @R-knitr].<br>
   `citr`: addin for easyly find citations in the .bib file and insert in the correct format [@R-citr].<br>
   `icon` inserting many different icons in markdown [@R-icon].<br>
-  `ggridges` plotting the density in single rows like ridges and moreover [@R-ggridges].<br>
-  `ggrepel` avoid labels overlapping [@R-ggrepel].
+  `ggridges`: plotting the density in single rows like ridges and moreover [@R-ggridges].<br>
+  `ggrepel`: avoid labels overlapping [@R-ggrepel].
   
 </div>
 <br>
@@ -72,7 +72,7 @@ As a coffee lover I felt that exploring a dataset about coffee was mandatory. Th
 
 I decided then to compare coffee ratings across countries and the associated density of cups rated. Among the main findings it shows that one Ethiopian coffee came to be the best ranked and also that this country's coffees are the best ranked while Haitian coffees show one of the widest range of ratings. Colombian coffee display a moderately good ratings and a very narrow range. 
 
-# Getting Tidy Tuesday data
+# Getting TidyTuesday data
 
 ```{r, include=FALSE}
 #data <-  tidytuesdayR::tt_load(2020, week = 28)
@@ -102,7 +102,7 @@ coffee %>%
   labs(
     title = "Comparison of coffee's ratings across countries and its distribution",
     subtitle = "Ethiopian coffees seem to be the best. Latinoamerican countries were more abundant in the competition",
-    caption = "Data: TidyTuesday week 28. Visualization: @Gaspardelanoche",
+    caption = "Data: TidyTuesday week 28. Plot: @Gaspardelanoche",
     fill = "Total cup points"
   ) +
   theme(

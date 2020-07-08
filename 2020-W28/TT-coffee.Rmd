@@ -1,0 +1,167 @@
+---
+title: "Coffee ratings"
+subtitle: "TidyTuesday week 28"
+author: "[Camilo Garcia](https://camilogarciabotero.github.io)"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+mail: "cgarci39@eafit.edu.co"
+twitter: "gaspardelanoche"
+#orcid: "0000-0002-0426-7007"
+github: "camilogarciabotero"
+home: "camilogarciabotero.github.io"
+#scholar: "OJ6452UAAAAJ&hl"
+#researchgate: "Camilo_Garcia-Botero"
+#logo: "../img/coffee-4.png"
+output:
+  epuRate::epurate:
+   toc: TRUE
+   number_sections: FALSE
+   code_folding: "show"
+bibliography: ../bibliography.bib
+link-citations: yes
+---
+
+```{r options, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE,  comment= " ")# , engine.opts = list(zsh="-i")) #, engine.opts = list(zsh="source ~/.zprofile"))#, engine.path = list()) #str(knitr::opts_chunk$get())
+#write_bib(c('tidyverse', "tidylog", "patchwork", "tidytuesdayR", "hrbrthemes", "rmarkdown", "bookdown", "epuRate", "knitr", "citr", "ggsci", "gghighlight", "icon", "ggridges", "ggrepel"))
+```
+
+
+
+```{r libraries, include=FALSE, warning=FALSE, message=FALSE}
+library(tidyverse) 
+library(tidytuesdayR)
+library(hrbrthemes)
+library(rmarkdown)
+library(bookdown)
+library(epuRate)
+library(knitr)
+library(citr)
+library(icon) 
+library(ggridges)
+library(ggrepel)
+```
+
+
+<style>
+div.red { background-color:#FFE8E8; border-radius: 5px; padding: 30px; } 
+div.red p { font-family: Verdana, Geneva, sans-serif; }
+</style>
+<div class = "red">
+<p style="text-align:right">`r icon::fontawesome("r-project")`</p>
+**Libraries**
+  
+  `tidyverse`: data transformations and beautiful plots [@tidyverse2019].<br>
+  `hrbrthemes`: this contains the ipsum theme, a very simple and elegant theme [@R-hrbrthemes].<br>
+  `rmarkdown`: all the structure of the report relies on this library [@R-rmarkdown].<br>
+  `bookdown`: allows the bibliography on the YAML header of this Rmarkdown doc [@bookdown2016; @R-bookdown].<br>
+  `epuRate`: the elegant theme of the report [@R-epuRate].<br>
+  `knitr`: all parts integration to render the output reporducible report [@knitr2014; @knitr2015; @R-knitr].<br>
+  `citr`: addin for easyly find citations in the .bib file and insert in the correct format [@R-citr].<br>
+  `icon` inserting many different icons in markdown [@R-icon].<br>
+  `ggridges`: plotting the density in single rows like ridges and moreover [@R-ggridges].<br>
+  `ggrepel`: avoid labels overlapping [@R-ggrepel].
+  
+</div>
+<br>
+
+
+
+This is my first Tidy Tuesday contribution and will be playing around a little bit with  the coffee rating data `r icon::fontawesome("coffee", style = "solid")`.
+
+As a coffee lover I felt that exploring a dataset about coffee was mandatory. The first question that came to me mind was: what is the best coffee and eventually, as looking a little bit deeper into dataset, which country has the best coffees.
+
+I decided then to compare coffee ratings across countries and the associated density of cups rated. Among the main findings it shows that one Ethiopian coffee came to be the best ranked and also that this country's coffees are the best ranked while Haitian coffees show one of the widest range of ratings. Colombian coffee display a moderately good ratings and a very narrow range. 
+
+# Getting TidyTuesday data
+
+```{r, include=FALSE}
+#data <-  tidytuesdayR::tt_load(2020, week = 28)
+#coffee <- data$coffee_ratings
+#head(coffee)
+```
+
+
+```{r data-import, message=FALSE, warning=FALSE}
+coffee <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-07-07/coffee_ratings.csv')
+head(coffee)
+```
+
+# Coffee ratings distribution
+
+```{r country-comparison, fig.align= "center", fig.height= 15, fig.width=15, dpi = 100, warning=FALSE, message=FALSE, fig.cap= "Fig 1. Comparison of the different coffee ratings for the different cups across countries and its associate distribution coffee cups."}
+
+coffee %>%
+  drop_na(any_of("country_of_origin")) %>%
+  filter(aroma != 0 & !country_of_origin %in% c("Zambia", "Rwanda", "Papua New Guinea", "Japan", "Mauritius", "Cote d?Ivoire")) %>%
+  ggplot(aes(x = total_cup_points, y = country_of_origin, fill = stat(x), label = owner)) +
+  geom_density_ridges_gradient(show.legend = T, alpha = .5, point_alpha = 0.5, jittered_points = TRUE) +
+  theme_ipsum() +
+  scale_fill_viridis_c(alpha = 0.7) +
+  ylab("") +
+  xlab("Total cup points") +
+  labs(
+    title = "Comparison of coffee's ratings across countries and its distribution",
+    subtitle = "Ethiopian coffees seem to be the best. Latinoamerican countries were more abundant in the competition",
+    caption = "Data: TidyTuesday week 28. Plot: @Gaspardelanoche",
+    fill = "Total cup points"
+  ) +
+  theme(
+    plot.title = element_text(size = 20, face = "bold"),
+    plot.subtitle = element_text(size = 18),
+    axis.title.x = element_text(size = 18),
+    axis.title.y = element_text(size = 18),
+    axis.text.y = element_text(size = 18),
+    plot.caption = element_text(size = 16)
+  ) +
+  geom_label_repel(
+    data = subset(coffee, total_cup_points > 88),
+    force = 10,
+    xlim = c(88, NA)
+  )
+
+```
+
+
+***
+
+<div> 
+  <p align="center">
+    <a href="https://www.paypal.me/camilogarciabotero">
+      <img src="../img/coffe-3.png" />
+    </a>
+  </p>			  
+</div>
+
+
+***
+<br><br>
+
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://camilogarciabotero-github-io.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+***
+
+# References
+
+
+
+

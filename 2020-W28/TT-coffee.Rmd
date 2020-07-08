@@ -92,7 +92,8 @@ head(coffee)
 
 coffee %>%
   drop_na(any_of("country_of_origin")) %>%
-  filter(aroma != 0 & !country_of_origin %in% c("Zambia", "Rwanda", "Papua New Guinea", "Japan", "Mauritius", "Cote d?Ivoire")) %>%
+  filter(aroma != 0 & !country_of_origin %in% c("Zambia", "Rwanda", "Papua New Guinea", "Japan", "Mauritius", "Cote d?Ivoire", "Burundi")) %>%
+  mutate(country_of_origin = fct_reorder(country_of_origin, total_cup_points)) %>% 
   ggplot(aes(x = total_cup_points, y = country_of_origin, fill = stat(x), label = owner)) +
   geom_density_ridges_gradient(show.legend = T, alpha = .5, point_alpha = 0.5, jittered_points = TRUE) +
   theme_ipsum() +
@@ -114,9 +115,9 @@ coffee %>%
     plot.caption = element_text(size = 16)
   ) +
   geom_label_repel(
-    data = subset(coffee, total_cup_points > 88),
+    data = subset(coffee, total_cup_points > 89),
     force = 10,
-    xlim = c(88, NA)
+    xlim = c(85, NA)
   )
 
 ```

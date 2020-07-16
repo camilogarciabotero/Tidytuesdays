@@ -1,0 +1,254 @@
+---
+title: "Astronouts"
+subtitle: "TidyTuesday week 29"
+author: "[Camilo Garcia](https://camilogarciabotero.github.io)"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+mail: "cgarci39@eafit.edu.co"
+twitter: "gaspardelanoche"
+#orcid: "0000-0002-0426-7007"
+github: "camilogarciabotero"
+home: "camilogarciabotero.github.io"
+#scholar: "OJ6452UAAAAJ&hl"
+#researchgate: "Camilo_Garcia-Botero"
+#logo: "../img/coffee-4.png"
+output:
+  epuRate::epurate:
+   toc: TRUE
+   number_sections: FALSE
+   code_folding: "show"
+bibliography: ../bibliography.bib
+link-citations: yes
+---
+
+```{r options, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE,  comment= " ")
+```
+
+
+```{r libraries, include=FALSE, warning=FALSE, message=FALSE}
+library(tidyverse) 
+library(tidytuesdayR)
+library(hrbrthemes)
+library(rmarkdown)
+library(bookdown)
+library(epuRate)
+library(knitr)
+library(citr)
+library(icon) 
+library(ggridges)
+library(ggrepel)
+library(gganimate) # missing cite
+#library(gifski)  # missing cite
+```
+
+
+<style>
+div.red { background-color:#FFE8E8; border-radius: 5px; padding: 30px; } 
+div.red p { font-family: Verdana, Geneva, sans-serif; }
+</style>
+<div class = "red">
+<p style="text-align:right">`r icon::fontawesome("r-project")`</p>
+**Libraries**
+  
+  `tidyverse`: data transformations and beautiful plots [@tidyverse2019].<br>
+  `hrbrthemes`: this contains the ipsum theme, a very simple and elegant theme [@R-hrbrthemes].<br>
+  `rmarkdown`: all the structure of the report relies on this library [@R-rmarkdown].<br>
+  `bookdown`: allows the bibliography on the YAML header of this Rmarkdown doc [@bookdown2016; @R-bookdown].<br>
+  `epuRate`: the elegant theme of the report [@R-epuRate].<br>
+  `knitr`: all parts integration to render the output reporducible report [@knitr2014; @knitr2015; @R-knitr].<br>
+  `citr`: addin for easyly find citations in the .bib file and insert in the correct format [@R-citr].<br>
+  `icon` inserting many different icons in markdown [@R-icon].<br>
+  `ggridges`: plotting the density in single rows like ridges and moreover [@R-ggridges].<br>
+  `ggrepel`: avoid labels overlapping [@R-ggrepel].
+  
+</div>
+<br>
+
+
+<p style="text-align:center">`r icon::fontawesome("rocket", style = "solid")`</p>
+
+
+# Getting TidyTuesday data
+
+```{r, include=FALSE}
+data <-  tidytuesdayR::tt_load(2020, week = 29)
+astronauts <- data$astronauts
+
+```
+
+A very handy way to get data from the original TidyTuesday repo is using its own package functions: `data = tidytuesdayR::tt_load(2020, week = 29)` and then we need to store the element of this list as the actual dataset as `astronauts = data$astronauts` so the head looks like:
+
+`r head(astronauts)`
+***
+
+Sometimes `head()` function doesn't say to much, so lets use the `glimpse` function of the `{tidyduesdayR}` package to take a good look into the data:
+
+```{r, echo=FALSE}
+glimpse(data$astronauts)
+```
+
+
+
+```{r, eval=FALSE, include=FALSE}
+
+
+countries <- astronauts %>% 
+  select(year_of_mission, total_number_of_missions, nationality) %>%
+  group_by(year_of_mission, nationality) %>% 
+  mutate(nationality = as_factor(nationality), 
+         year_of_mission = as.integer(year_of_mission), 
+         ) %>% 
+  summarise(
+    count = sum(total_number_of_missions)
+  ) %>% 
+  ungroup() %>% 
+  group_by(nationality) %>% 
+  mutate(cumsum = cumsum(count)) %>% 
+  ungroup() %>% 
+  group_by(year_of_mission) %>% 
+  mutate(ordering = rank(cumsum, ties.method = "max"))
+
+
+countries <- astronauts %>% 
+  select(year_of_mission, total_number_of_missions, nationality) %>%
+  group_by(year_of_mission, nationality) %>% 
+  mutate(nationality = as_factor(nationality), 
+         year_of_mission = as.integer(year_of_mission)
+         ) %>% 
+  summarise(
+    count = sum(total_number_of_missions),
+  ) %>% 
+  mutate(ordering = rank(count, ties.method = "max"))
+
+
+
+countries <- astronauts %>% 
+  select(year_of_mission, total_number_of_missions, nationality) %>% 
+  group_by(year_of_mission) %>% 
+  mutate(count = sum(total_number_of_missions)) 
+
+  
+
+
+  summarise(
+    count = sum(total_number_of_missions)
+  ) %>% 
+  ungroup() %>% 
+  group_by(nationality) %>% 
+  mutate(cumsum = cumsum(count)) %>% 
+  ungroup() %>% 
+  group_by(year_of_mission) %>% 
+  mutate(ordering = rank(cumsum, ties.method = "max")) %>% 
+  ungroup()
+
+
+
+```
+
+
+
+
+# Astronauts
+
+```{r astronauts, fig.align= "center", fig.height= 18, fig.width=15, dpi = 100, warning=FALSE, message=FALSE, fig.cap= "Fig 1. Comparison of the different coffee ratings for the different cups across countries and its associate distribution coffee cups."}
+
+
+countries <- astronauts %>% 
+  select(year_of_mission, total_number_of_missions, nationality) %>%
+  group_by(year_of_mission, nationality) %>% 
+  mutate(nationality = as_factor(nationality), 
+         year_of_mission = as.integer(year_of_mission), 
+         ) %>% 
+  summarise(
+    count = sum(total_number_of_missions)
+  ) %>% 
+  ungroup() %>% 
+  group_by(nationality) %>% 
+  mutate(cumsum = cumsum(count)) %>% 
+  ungroup() %>% 
+  group_by(year_of_mission) %>% 
+  mutate(ordering = rank(cumsum, ties.method = "max")) %>% 
+  ungroup()
+
+
+plot <- countries %>% 
+  ggplot(aes(ordering, group = nationality))  +
+  geom_tile(aes(y = cumsum/2, 
+                height = cumsum,
+                width = 0.9), 
+            alpha = 0.9) +
+  geom_text(aes(y = 0, label = nationality), hjust = 1.1) +
+  coord_flip(clip = "off", expand = FALSE) +
+  labs(
+    title = "{frame_time}",
+    subtitle = "",
+    y = "Cumulative number of mission per year",
+    x = "",
+    caption = "Data: TidyTuesday week 29. Plot: @Gaspardelanoche",
+    fill = ""
+  ) +
+  theme_ipsum() +
+  theme(
+    plot.title = element_text(size = 20, face = "bold"),
+    plot.subtitle = element_text(size = 18),
+    axis.title.x = element_text(size = 18),
+    axis.title.y = element_text(size = 18),
+    axis.text.y = element_blank(),
+    axis.text.x = element_text(size = 14),
+    axis.ticks.y = element_blank(),
+    plot.caption = element_text(size = 12),
+    plot.margin = margin(3, 3, 3, 3, "cm"),
+  ) +
+  transition_time(year_of_mission) +
+  ease_aes('cubic-in') 
+
+animate(plot, nframes = 500, fps = 10, width = 600, height = 1000, end_pause = 25)
+
+```
+
+
+
+
+***
+
+<div> 
+  <p align="center">
+    <a href="https://www.paypal.me/camilogarciabotero">
+      <img src="../img/coffe-3.png" />
+    </a>
+  </p>			  
+</div>
+
+
+***
+<br><br>
+
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://camilogarciabotero-github-io.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+***
+
+# References
+
+
+
+

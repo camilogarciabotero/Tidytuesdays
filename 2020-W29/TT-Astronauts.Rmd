@@ -175,8 +175,8 @@ plot <- countries %>%
   ggplot(aes(ordering, group = nationality))  +
   geom_tile(aes(y = cumsum/2, 
                 height = cumsum,
-                width = 0.9), 
-            alpha = 0.9) +
+                width = 0.7), 
+            alpha = 0.6) +
   geom_text(aes(y = 0, label = nationality), hjust = 1.1) +
   coord_flip(clip = "off", expand = FALSE) +
   labs(
@@ -202,7 +202,7 @@ plot <- countries %>%
   transition_time(year_of_mission) +
   ease_aes('cubic-in') 
 
-animate(plot, nframes = 500, fps = 10, width = 600, height = 1000, end_pause = 25)
+animate(plot, nframes = 500, fps = 10, width = 600, height = 600, end_pause = 25)
 
 ```
 

@@ -35,10 +35,7 @@ library(epuRate)
 library(knitr)
 library(citr)
 library(icon) 
-library(ggridges)
-library(ggrepel)
-library(gganimate) # missing cite
-#library(gifski)  # missing cite
+library(gganimate) 
 ```
 
 
@@ -57,10 +54,9 @@ div.red p { font-family: Verdana, Geneva, sans-serif; }
   `epuRate`: the elegant theme of the report [@R-epuRate].<br>
   `knitr`: all parts integration to render the output reporducible report [@knitr2014; @knitr2015; @R-knitr].<br>
   `citr`: addin for easyly find citations in the .bib file and insert in the correct format [@R-citr].<br>
-  `icon` inserting many different icons in markdown [@R-icon].<br>
-  `ggridges`: plotting the density in single rows like ridges and moreover [@R-ggridges].<br>
-  `ggrepel`: avoid labels overlapping [@R-ggrepel].
-  
+  `icon`: inserting many different icons in markdown [@R-icon].<br>
+  `gganimate`: animating ggplot objects [@R-gganimate].
+
 </div>
 <br>
 

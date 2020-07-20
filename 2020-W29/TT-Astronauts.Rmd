@@ -202,20 +202,6 @@ animate(plot, nframes = 500, fps = 10, width = 600, height = 600, end_pause = 25
 
 ```
 
-
-
-
-***
-
-<div> 
-  <p align="center">
-    <a href="https://www.paypal.me/camilogarciabotero">
-      <img src="../img/coffe-3.png" />
-    </a>
-  </p>			  
-</div>
-
-
 ***
 <br><br>
 

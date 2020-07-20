@@ -124,17 +124,6 @@ coffee %>%
 
 
 ***
-
-<div> 
-  <p align="center">
-    <a href="https://www.paypal.me/camilogarciabotero">
-      <img src="../img/coffe-3.png" />
-    </a>
-  </p>			  
-</div>
-
-
-***
 <br><br>
 
 <div id="disqus_thread"></div>

@@ -17,7 +17,7 @@ output:
    toc: TRUE
    number_sections: FALSE
    code_folding: "show"
-bibliography: ../bibliography.bib
+bibliography: ../../bibliography.bib
 link-citations: yes
 ---
 
@@ -26,7 +26,7 @@ link-citations: yes
 knitr::opts_chunk$set(echo = TRUE, comment = " ")
 ```
 
-```{r libraries, include=FALSE, warning=FALSE, message=FALSE}
+```{r libraries, cache = T, include=FALSE, warning=FALSE, message=FALSE}
 library(tidyverse) 
 library(tidytuesdayR)
 library(ggprism)
@@ -41,8 +41,8 @@ library(citr)
 
 Using the `tidytuesdayR` package this task is easy:
 
-```{r, message=FALSE, warning=FALSE, cache=TRUE, echo=FALSE}
-data <-  tidytuesdayR::tt_load(2021, week = 7, quiet = T, eval = F)
+```{r, message=FALSE, warning=FALSE, cache=TRUE}
+data <-  tidytuesdayR::tt_load(2021, week = 7)
 student_debt <- data$student_debt
 ```
 

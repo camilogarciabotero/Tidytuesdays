@@ -23,7 +23,7 @@ link-citations: yes
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, comment = " ",out.width = "100%", out.height = "100%")
+knitr::opts_chunk$set(echo = TRUE, comment = " ")
 ```
 
 ```{r libraries, include=FALSE, warning=FALSE, message=FALSE}
@@ -41,7 +41,7 @@ library(citr)
 
 Using the `tidytuesdayR` package this task is easy:
 
-```{r, message=FALSE, warning=FALSE, cache=TRUE}
+```{r, message=FALSE, warning=FALSE, cache=TRUE, echo=FALSE}
 data <-  tidytuesdayR::tt_load(2021, week = 7, quiet = T, eval = F)
 student_debt <- data$student_debt
 ```
@@ -52,7 +52,7 @@ head(student_debt)
 
 # Students debts over time
 
-```{r, warning=FALSE, message=FALSE}
+```{r, warning=FALSE, message=FALSE, fig.height= 6, fig.width=8, dpi = 100}
 
 student_debt %>%
   ggplot(aes(year, loan_debt, color = race)) +
@@ -67,7 +67,7 @@ student_debt %>%
   ) +
   labs(
     x = "",
-    y = "Loan debt ($)"
+    y = "Loan debt (US)"
   ) +
   scale_x_continuous(guide = "prism_offset_minor", limits = c(1990,2015)) +
   scale_y_continuous(guide = "prism_offset_minor", limits = c(1000, 10000)) 

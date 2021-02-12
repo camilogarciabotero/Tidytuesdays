@@ -1,0 +1,104 @@
+---
+title: "Wealth and income"
+subtitle: "TidyTuesday 2021 week 07 "
+author: "[Camilo Garcia](https://camilogarciabotero.github.io)"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+mail: "cgarci39@eafit.edu.co"
+twitter: "gaspardelanoche"
+#orcid: "0000-0002-0426-7007"
+github: "camilogarciabotero"
+home: "camilogarciabotero.github.io"
+coffee: "camilogarciabotero"
+#scholar: "OJ6452UAAAAJ&hl"
+#researchgate: "Camilo_Garcia-Botero"
+#logo: "../img/coffee-4.png"
+output:
+  epuRate::epurate:
+   toc: TRUE
+   number_sections: FALSE
+   code_folding: "show"
+bibliography: ../bibliography.bib
+link-citations: yes
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, comment = " ",out.width = "100%", out.height = "100%")
+```
+
+```{r libraries, include=FALSE, warning=FALSE, message=FALSE}
+library(tidyverse) 
+library(tidytuesdayR)
+library(ggprism)
+library(rmarkdown)
+library(bookdown)
+library(epuRate)
+library(knitr)
+library(citr)
+```
+
+# Data import 
+
+Using the `tidytuesdayR` package this task is easy:
+
+```{r, message=FALSE, warning=FALSE, cache=TRUE}
+data <-  tidytuesdayR::tt_load(2021, week = 7, quiet = T, eval = F)
+student_debt <- data$student_debt
+```
+
+```{r}
+head(student_debt)
+```
+
+# Students debts over time
+
+```{r, warning=FALSE, message=FALSE}
+
+student_debt %>%
+  ggplot(aes(year, loan_debt, color = race)) +
+  geom_line() +
+  eafithemer::theme_eafit_light() +
+  eafithemer::scale_color_eafit() +
+  theme(
+    legend.title = element_blank(),
+    axis.line = element_line(color = "#000000"),
+    axis.ticks = element_line(color = "#000000"),
+    panel.grid = element_line(color = "#DDDDDD", linetype = "dotted") # Soft gray
+  ) +
+  labs(
+    x = "",
+    y = "Loan debt ($)"
+  ) +
+  scale_x_continuous(guide = "prism_offset_minor", limits = c(1990,2015)) +
+  scale_y_continuous(guide = "prism_offset_minor", limits = c(1000, 10000)) 
+
+```
+
+
+***
+<br><br>
+
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://camilogarciabotero-github-io.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+***
+
+
+

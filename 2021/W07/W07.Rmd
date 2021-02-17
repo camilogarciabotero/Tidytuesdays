@@ -21,7 +21,6 @@ bibliography: ../../bibliography.bib
 link-citations: yes
 ---
 
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, comment = " ")
 ```
@@ -37,7 +36,7 @@ library(knitr)
 library(citr)
 ```
 
-# Data import 
+# Data import
 
 Using the `tidytuesdayR` package this task is easy:
 
@@ -74,11 +73,14 @@ student_debt %>%
 
 ```
 
+------------------------------------------------------------------------
 
-***
 <br><br>
 
-<div id="disqus_thread"></div>
+::: {#disqus_thread}
+:::
+
+```{=html}
 <script>
 
 /**
@@ -97,8 +99,11 @@ s.setAttribute('data-timestamp', +new Date());
 (d.head || d.body).appendChild(s);
 })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-***
+```
+<noscript>
 
+Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
 
+</noscript>
 
+------------------------------------------------------------------------

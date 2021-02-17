@@ -25,7 +25,14 @@ link-citations: yes
 knitr::opts_chunk$set(echo = TRUE, comment = " ")
 ```
 
-```{r libraries, cache = T, include=FALSE, warning=FALSE, message=FALSE}
+
+And the original piece we want to replicate:
+
+![](original-proportion.jpg)
+
+# Libraries
+
+```{r libraries, cache = T, include=T, warning=FALSE, message=FALSE}
 library(tidyverse) 
 library(tidytuesdayR)
 library(ggprism)
@@ -36,6 +43,7 @@ library(knitr)
 library(citr)
 library(extrafont)
 ```
+
 
 # Data import
 
@@ -51,7 +59,6 @@ freed_slaves$Slave[freed_slaves$Year == 1800] <- 89 # There is a missing value i
 # Freed slaves over decades
 
 ```{r freed_slaves_p01, warning=FALSE, message=FALSE, fig.height= 10, fig.width=8, dpi = 100, eval=FALSE}
-
 font <- "Georgia"
 
 freed_slaves_long <- freed_slaves %>%
@@ -101,9 +108,6 @@ scale_fill_manual(values = c("#4C885C", "#111312")) +
 
 ![](proporitions-plot-02.png)
 
-And the original piece: 
-
-![](original-proportion.jpg)
 
 
 

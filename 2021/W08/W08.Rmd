@@ -148,7 +148,7 @@ scale_fill_manual(values = c("#4C885C", "#111312")) +
 
 <script src="https://utteranc.es/client.js"
         repo="camilogarciabotero/Tidytuesdays"
-        issue-term="https://github.com/camilogarciabotero/Tidytuesdays/issues"
+        issue-term=""
         theme="github-dark-orange"
         crossorigin="anonymous"
         async>

@@ -146,10 +146,10 @@ scale_fill_manual(values = c("#4C885C", "#111312")) +
 
 <!-- ------------------------------------------------------------------------ -->
 
-<script src="https://utteranc.es/client.js"
-        repo="camilogarciabotero/Tidytuesdays"
-        issue-term=""
-        theme="github-dark-orange"
-        crossorigin="anonymous"
-        async>
-</script>
+<!-- <script src="https://utteranc.es/client.js" -->
+<!--         repo="camilogarciabotero/Tidytuesdays" -->
+<!--         issue-term="" -->
+<!--         theme="github-dark-orange" -->
+<!--         crossorigin="anonymous" -->
+<!--         async> -->
+<!-- </script> -->

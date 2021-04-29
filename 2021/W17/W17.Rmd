@@ -99,72 +99,7 @@ ggplot(movies_country_year, aes(n, reorder(country, n), label = n, fill = type))
   scale_fill_manual(values = c("#FAF5FF","#FF0000"))
 ```
 
-
-```{r exploratoryanimated, warning=FALSE, message=FALSE, fig.height = 10, fig.width = 10, dpi= 300, include=FALSE, eval=FALSE}
-(
-movies_country_years <- netflix_titles %>% 
-  select(country, release_year, type) %>% 
-  filter(!is.na(country), type == "Movie", !is.na(release_year)) %>% 
-  separate_rows(country, sep = ", ") %>% 
-  count(country, sort = TRUE, release_year) %>% 
-  filter(country != "Other") %>% 
-  group_by(country) %>% 
-  arrange(release_year) %>%
-  summarize(release_year, cumsum = cumsum(n), n) %>%
-  mutate(ordering = rank(cumsum), release_year = as.integer(release_year)) %>% 
-  ungroup() 
-  # pivot_wider(names_from = release_year, values_from = cumsum) %>% 
-  # mutate(across(everything(), ~replace_na(.x, 0))) %>% 
-  # pivot_longer(!c(country, n, ordering), names_to = "release_year",  values_to = "cumsum") %>% 
-  # mutate(release_year = as.integer(release_year))
-  
-  # mutate(release_year = as.numeric(release_year)) %>% 
-  # group_by(country) %>% 
-  # arrange(release_year) %>% 
-  # summarize(release_year, cumsum = cumsum(n),n) %>% 
-  # ungroup() %>% 
-  # group_by(country) %>% 
-  # mutate(ordering = rank(cumsum, ties.method = "max")) %>% 
-  # ungroup()
-)
-
-movies_country_year_animated <- ggplot(movies_country_years, aes(ordering, group = country)) +
-  geom_tile(aes(y = cumsum/2, height = cumsum, width = 0.9), alpha = 0.5, fill = "red") +
-  geom_text(aes(y = 0, label = country), hjust = 1.1, color = "white") +
-  geom_text(aes(y = cumsum, label = cumsum), size = 3, color = "white", hjust = -1) +
-  coord_flip(clip = "off", expand = FALSE) +
-  labs(
-    y = "",
-    x = "",
-    title = "Released titles in {frame_time} available in Netflix",
-    subtitle = "Frequency of movies releases during 2020 (the pandemic) per country, that are available in Netflix \n(Date do not correspond to Netflix release, but to the movies theirselves)",
-    caption = "Data: Kaggle \n#TidyTuesday: 2021-04-17 \nPlot: @Gaspardelanoche"
-  ) +
-  theme(
-    plot.background = element_rect(fill = "#111111"),
-    panel.grid = element_line(color = "#333333", linetype = "dotted", size = 0.2),
-    axis.text.x = element_text(color = "white"),
-    axis.title = element_text(color = "white"),
-    axis.text.y = element_blank(),
-    # axis.line = element_line(color = "#333333"),
-    axis.ticks = element_line(color = "gray30"),
-    plot.title = element_text(color = "red", size = 20),
-    plot.subtitle = element_text(color = "white", size = 13),
-    plot.caption = element_text(color = "white", size = 11),
-    legend.text = element_text(color = "white"),
-    legend.background = element_rect(fill = "#111111"),
-    legend.position = "bottom",
-    legend.title = element_blank(),
-    plot.margin = margin(4, 4, 4, 4, "cm")
-  ) +
-  transition_time(movies_country_years$release_year) +
-  ease_aes('linear')
-
-animate(movies_country_year_animated, nframes = 500, fps = 10, width = 800, height = 800, end_pause = 25)
-
-
-```
-
+# Releases titles animated
 
 ```{r exploratoryanimates02, warning=FALSE, message=FALSE, fig.height = 10, fig.width = 10, dpi= 300}
 (
@@ -217,8 +152,5 @@ movies_country_year_animated <- ggplot(movies_country_year, aes(ordering, group 
   ease_aes('bounce-in-out')
 
 animate(movies_country_year_animated, nframes = 500, fps = 5, width = 800, height = 800, end_pause = 25)
-
-anim_save("netflix_movies.gif")
-
 ```
 

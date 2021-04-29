@@ -52,7 +52,7 @@ netflix_titles <- vroom::vroom('https://raw.githubusercontent.com/rfordatascienc
   mutate(year_added = year(date_added))
 ```
 
-```{r head, warning=FALSE, message=FALSE, eval=FALSE}
+```{r head, warning=FALSE, message=FALSE, eval=TRUE}
 netflix_titles %>%
   head()
 ```
@@ -103,7 +103,7 @@ ggplot(movies_country_year, aes(n, reorder(country, n), label = n, fill = type))
 
 ```{r exploratoryanimates02, warning=FALSE, message=FALSE, fig.height = 10, fig.width = 10, dpi= 300}
 (
-movies_country_year <- netflix_titles %>% 
+movies_country_years <- netflix_titles %>% 
   select(country, release_year, type) %>% 
   filter(!is.na(country), !is.na(release_year)) %>% 
   separate_rows(country, sep = ", ") %>% 
@@ -120,7 +120,7 @@ movies_country_year <- netflix_titles %>%
   mutate(ordering = rank(cumsum, ties.method = "first"), release_year = as.integer(release_year), cumsum_lab = as.character(cumsum))
 )
 
-movies_country_year_animated <- ggplot(movies_country_year, aes(ordering, group = country)) +
+movies_country_years_animated <- ggplot(movies_country_years, aes(ordering, group = country)) +
   geom_tile(aes(y = cumsum/2, height = cumsum, width = 0.9), alpha = 0.5, fill = "red") +
   geom_text(aes(y = 0, label = country), hjust = 1.1, color = "white") +
   geom_text(aes(y = cumsum, label = cumsum_lab), size = 3, color = "white", hjust = -0.5) +
@@ -151,6 +151,6 @@ movies_country_year_animated <- ggplot(movies_country_year, aes(ordering, group 
   transition_time(release_year) +
   ease_aes('bounce-in-out')
 
-animate(movies_country_year_animated, nframes = 500, fps = 5, width = 800, height = 800, end_pause = 25)
+animate(movies_country_years_animated, nframes = 500, fps = 5, width = 800, height = 800, end_pause = 25)
 ```
 

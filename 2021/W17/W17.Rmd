@@ -109,13 +109,13 @@ movies_country_years <- netflix_titles %>%
   separate_rows(country, sep = ", ") %>% 
   count(country = fct_lump(country,10), sort = TRUE, release_year) %>% 
   pivot_wider(names_from = release_year, values_from = n) %>% 
-  mutate(across(everything(), ~replace_na(.x, 0))) %>% 
+  mutate(across(everything(), ~replace_na(., 0))) %>% 
   pivot_longer(!c(country,), names_to = "release_year",  values_to = "n") %>% 
   filter(country != "Other") %>% 
   group_by(country) %>% 
   arrange(release_year) %>%
-  summarize(release_year, cumsum = cumsum(n), n) %>%
-  ungroup() %>% 
+  summarize(release_year, cumsum = cumsum(n), n, .groups = "drop") %>%
+  # ungroup() %>% 
   group_by(release_year) %>% 
   mutate(ordering = rank(cumsum, ties.method = "first"), release_year = as.integer(release_year), cumsum_lab = as.character(cumsum))
 )
@@ -129,7 +129,7 @@ movies_country_years_animated <- ggplot(movies_country_years, aes(ordering, grou
     y = "",
     x = "",
     title = "Released titles in {frame_time} available in Netflix",
-    subtitle = "Frequency of movies releases during 2020 (the pandemic) per country, that are available in Netflix \n(Date do not correspond to Netflix release, but to the movies theirselves)",
+    subtitle = "Frequency of movies released in {frame_time} country, that are available in Netflix \n(Date do not correspond to Netflix release, but to the movies theirselves)",
     caption = "Data: Kaggle \n#TidyTuesday: 2021-04-17 \nPlot: @Gaspardelanoche"
   ) +
   theme(
@@ -151,6 +151,7 @@ movies_country_years_animated <- ggplot(movies_country_years, aes(ordering, grou
   transition_time(release_year) +
   ease_aes('bounce-in-out')
 
-animate(movies_country_years_animated, nframes = 500, fps = 5, width = 800, height = 800, end_pause = 25)
+animate(movies_country_years_animated, nframes = 500, fps = 10, width = 800, height = 800, end_pause = 25)
+
 ```
 
